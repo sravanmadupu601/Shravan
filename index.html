@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dataphi Labs</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="custom.css">
+</head>
+<body>
+	<div class="col-md-12 col-sm-12 col-xs-12 header">
+		<div class="hv-middle">
+			<p class="text-center header-text">Dataphilabs Patient Info</p>
+		</div>	
+	</div>
+	<div class="col-md-12 col-xs-12 top-div">
+		<div class="col-md-6 col-xs-6">
+		<p>*All Fields are Mandatory</p>
+		</div>
+		<div class="col-md-6 col-xs-6 text-right">
+		<a href="patient.php" type="button pull-right" class="btn btn-info">Click here for Patiens Records</a>
+		</div>
+	</div>
+	<div class="col-md-4 col-sm-6 col-xs-12 form-container">
+		
+		<form id="patient-form">
+  			<div class="form-group">
+    			<label for="fname">First Name*</label>
+    			<input type="text" name="first_name" class="form-control" id="fname">
+  			</div>
+  			<div class="form-group">
+    			<label for="lname">Last Name*</label>
+    			<input type="text" name="last_name" class="form-control" id="lname">
+  			</div>
+  			<div class="form-group">
+    			<label for="age">Age*</label>
+    			<input type="number" name="age" class="form-control" id="age">
+  			</div>
+  			<div class="form-group">
+    			<label for="datepicker">Date of Birth*</label>
+    			<input type="text" name="dob" class="form-control" id="datepicker">
+  			</div>
+  			<div class="form-group">
+  				<div class="dropdown">
+  					<label for="gender">Gender*</label>
+  					<button class="btn btn-primary dropdown-toggle custom-dropdown" id="gender" type="button" data-toggle="dropdown">Select Gender
+  					<span class="caret"></span></button>
+  						<ul class="dropdown-menu gender-dropdown">
+    						<li><a href="#">Male</a></li>
+    						<li><a href="#">Female</a></li>
+  						</ul>
+				</div>
+				<input type="hidden" name="gender" id="gender-input">
+  			</div>
+  			<div class="form-group">
+    			<label for="mobile">Mobile*</label>
+    			<input type="number" name="mobile" class="form-control" id="mobile">
+  			</div>
+  			<div class="form-group">
+    			<label for="other">Other Information*</label>
+    			<textarea class="form-control" name="other" id="other"></textarea>
+  			</div>
+  			<div class="form-group result">
+  				<div class="loading"></div>
+  			</div>
+  			<button type="submit" class="btn btn-warning">Submit</button>
+		</form>
+	</div>
+
+	<script type="text/javascript">
+		$(function() {
+    		$("#datepicker").datepicker();
+    	});
+    	$(document).ready(function(){
+    		$('.gender-dropdown a').on('click', function(){    
+    			$(this).parent().parent().prev().html($(this).html() + '<span class="caret"></span>');
+    			var gender_value=$(this).parent().parent().prev().text();
+    			//alert(gender_value);
+    			$('#gender-input').val(gender_value);    
+			});
+			$('#patient-form').submit(function(e) {
+    			e.preventDefault();
+    			var fname=$(this).find('#fname').val();
+    			var lname=$(this).find('#lname').val();
+    			var age=$(this).find('#age').val();
+    			var datepicker=$(this).find('#datepicker').val();
+    			var gender=$(this).find('#gender').text();
+    			var gender_input_val=$(this).find('#gender-input').val();
+    			var mobile=$(this).find('#mobile').val();
+    			var other=$(this).find('#other').val();
+    			if(fname == ''){
+        			$('.alert-danger').remove();
+        			$(this).find('#fname').after('<div class="alert alert-danger custom-alert">Please enter your first name</div>');
+        			$(this).find('#fname').focus();
+        			return false;
+    			}
+    			else if(lname == '')
+    			{
+    				$('.alert-danger').remove();
+        			$(this).find('#lname').after('<div class="alert alert-danger custom-alert">Please enter your last name</div>');
+        			$(this).find('#lname').focus();
+        			return false;
+    			}
+    			else if(age == '')
+    			{
+    				$('.alert-danger').remove();
+        			$(this).find('#age').after('<div class="alert alert-danger custom-alert">Please enter your age</div>');
+        			$(this).find('#age').focus();
+        			return false;
+    			}
+    			else if(datepicker == '')
+    			{
+    				$('.alert-danger').remove();
+        			$(this).find('#datepicker').after('<div class="alert alert-danger custom-alert">Please select your date of birth</div>');
+        			$(this).find('#datepicker').focus();
+        			return false;
+    			}
+    			else if(gender == '')
+    			{
+    				$('.alert-danger').remove();
+        			$(this).find('#gender').after('<div class="alert alert-danger custom-alert">Please select your gender</div>');
+        			$(this).find('#gender').focus();
+        			return false;
+    			}
+    			else if(mobile == '')
+    			{
+    				$('.alert-danger').remove();
+        			$(this).find('#mobile').after('<div class="alert alert-danger custom-alert">Please select your mobile number</div>');
+        			$(this).find('#mobile').focus();
+        			return false;
+    			}
+    			else if(other == '')
+    			{
+    				$('.alert-danger').remove();
+        			$(this).find('#other').after('<div class="alert alert-danger custom-alert">Please enter other information</div>');
+        			$(this).find('#other').focus();
+        			return false;
+    			}
+    			else
+    			{
+    				$('.loading').show();
+    				$.ajax({
+						url: "database.php", 
+						method:"post",
+						data:{first_name:fname,last_name:lname,age:age,dob:datepicker,gender:gender_input_val,mobile:mobile,other:other},
+						success: function(result){
+        					if(result){
+								$('.loading').hide();
+								$('.result').html('<p>Data Successfully Inserted</p>')
+							}
+							return true;
+    					}
+					});
+    			}
+    			
+			});
+    	});
+	</script>
+
+</body>
+</html>
